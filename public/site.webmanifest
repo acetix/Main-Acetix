@@ -1,0 +1,10 @@
+{
+  "name": "acetix.xyz",
+  "short_name": "acetix",
+  "description": "Free, privacy-first web tools for developers and everyday humans.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBFAF8",
+  "theme_color": "#FA3E0A",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
