@@ -49,6 +49,7 @@ function normalize(docs: QueryDocumentSnapshot<DocumentData>[]): Project[] {
           : shortDescription,
       projectUrl: typeof data.projectUrl === 'string' ? data.projectUrl : '#',
       imageUrl: typeof data.imageUrl === 'string' ? data.imageUrl : '',
+      iconUrl: typeof data.iconUrl === 'string' ? data.iconUrl.trim() : '',
       category:
         typeof data.category === 'string' && data.category.trim()
           ? normalizeCategoryId(data.category)

@@ -29,6 +29,17 @@ export function asDate(value: unknown): Date | null {
   return null;
 }
 
+/** "2025-06-14" style dates, or '' when the value has no usable date. */
+export function formatDate(value: unknown): string {
+  const d = asDate(value);
+  if (!d) return '';
+  return d.toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
 export function timeAgo(date: Date | null): string {
   if (!date) return '';
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);

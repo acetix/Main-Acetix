@@ -11,6 +11,7 @@
 
 export const KNOWN_TOP = [
   'projects',
+  'blog',
   'suggest',
   'about',
   'contact',

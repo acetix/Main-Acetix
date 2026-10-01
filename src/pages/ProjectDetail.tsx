@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import Reveal from '../components/Reveal';
 import ProjectImage from '../components/ProjectImage';
+import ProjectLogo from '../components/ProjectLogo';
 import VoteButtons from '../components/VoteButtons';
 import NotFound from './NotFound';
 import { usePageSeo } from '../lib/usePageSeo';
@@ -91,9 +92,14 @@ export default function ProjectDetail() {
 
         <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <h1 className="font-display text-5xl font-bold tracking-tight md:text-6xl">
-              {project.title}
-            </h1>
+            <span className="flex items-center gap-4">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-ink/10 bg-white p-1.5 shadow-sm md:h-16 md:w-16">
+                <ProjectLogo project={project} className="h-full w-full object-contain" />
+              </span>
+              <h1 className="font-display text-5xl font-bold tracking-tight md:text-6xl">
+                {project.title}
+              </h1>
+            </span>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-smoke">
               {project.shortDescription}
             </p>

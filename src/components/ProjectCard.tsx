@@ -4,6 +4,7 @@ import type { Project } from '../lib/types';
 import { categoryLabel, projectDomain } from '../lib/projects';
 import { localizedTo } from '../lib/useLocalizedLink';
 import ProjectImage from './ProjectImage';
+import ProjectLogo from './ProjectLogo';
 import VoteButtons from './VoteButtons';
 
 const STATUS_STYLE: Record<Project['status'], string> = {
@@ -45,10 +46,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">
             {categoryLabel(project.category)}
           </p>
-          <div className="mt-2 flex min-w-0 items-baseline justify-between gap-3">
-            <h3 className="min-w-0 break-words font-display text-xl font-bold tracking-tight">
-              {project.title}
-            </h3>
+          <div className="mt-2 flex min-w-0 items-center justify-between gap-3">
+            <span className="flex min-w-0 items-center gap-2.5">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-ink/10 bg-white">
+                <ProjectLogo project={project} className="h-6 w-6 object-contain" />
+              </span>
+              <h3 className="min-w-0 break-words font-display text-xl font-bold tracking-tight">
+                {project.title}
+              </h3>
+            </span>
             <span className="shrink-0 text-xs text-smoke">{projectDomain(project)}</span>
           </div>
           <p className="mt-2 min-w-0 break-words text-sm leading-relaxed text-smoke">{project.shortDescription}</p>

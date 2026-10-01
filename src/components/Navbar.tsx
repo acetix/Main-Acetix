@@ -6,6 +6,7 @@ import { localizedTo } from '../lib/useLocalizedLink';
 
 const LINKS = [
   { to: '/projects', label: 'Project' },
+  { to: '/blog', label: 'Blog' },
   { to: '/contact', label: 'Contact' },
   { to: '/profile', label: 'Profile' },
   { to: '/plan', label: 'Plan' },

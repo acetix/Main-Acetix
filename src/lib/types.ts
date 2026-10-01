@@ -10,7 +10,7 @@ export type ProjectStatus = 'live' | 'beta' | 'building';
 /**
  * Canonical project schema — mirrors the cloud `projects` documents:
  * title, slug, shortDescription, fullDescription, projectUrl, imageUrl,
- * category, tags, featured, status, order, createdAt, updatedAt.
+ * iconUrl, category, tags, featured, status, order, createdAt, updatedAt.
  *
  * The last four fields are optional enrichments the UI uses when present;
  * they are auto-derived otherwise (accent from category, domain from
@@ -23,6 +23,7 @@ export interface Project {
   fullDescription: string;
   projectUrl: string;
   imageUrl: string; // direct image link — never uploaded to Storage
+  iconUrl?: string; // direct logo link for this project (optional)
   category: ProjectCategory;
   tags: string[];
   featured?: boolean;
@@ -40,6 +41,28 @@ export interface Project {
 
 export type SuggestionStatus = 'new' | 'planned' | 'building' | 'shipped';
 
+/**
+ * Canonical blog schema — mirrors the cloud `blogs` documents:
+ * title, slug, shortDescription, blogUrl, imageUrl, category, tags,
+ * featured, author, createdAt, updatedAt.
+ *
+ * `blogUrl` is a direct link to the article's JSON file — the Blog
+ * detail page fetches and renders that JSON as the full article body.
+ */
+export interface Blog {
+  id: string; // route slug — cloud `slug` field, or the document id
+  title: string;
+  shortDescription: string;
+  blogUrl: string; // direct link to the article JSON file
+  imageUrl: string; // cover image link (optional — may be empty)
+  category: string;
+  tags: string[];
+  featured?: boolean;
+  author?: string;
+  createdAt?: unknown; // Cloud Timestamp | ISO string | epoch ms
+  updatedAt?: unknown;
+  slug?: string;
+}
 export interface Suggestion {
   id: string;
   title: string;

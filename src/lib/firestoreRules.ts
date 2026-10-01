@@ -37,6 +37,12 @@ service cloud.firestore {
       allow write: if isOwner();
     }
 
+    // ব্লগ তালিকা — Blog পেজের কার্ড এখান থেকে আসে (full article blogUrl JSON থেকে)
+    match /blogs/{doc} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
     // পাবলিক wishlist দেখাতে read খোলা থাকতে হবে
     match /suggestions/{doc} {
       allow read: if true;

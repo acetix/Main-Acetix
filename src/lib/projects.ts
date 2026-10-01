@@ -87,3 +87,12 @@ export function projectYear(project: Pick<Project, 'year' | 'createdAt'>): numbe
   const date = asDate(project.createdAt);
   return date ? date.getFullYear() : null;
 }
+
+/** Fallback logo shown when a project has no `iconUrl`. */
+export const DEFAULT_PROJECT_ICON = '/favicon.svg';
+
+/** Project logo: direct `iconUrl` link, or the site favicon when missing. */
+export function projectIcon(project: Pick<Project, 'iconUrl'>): string {
+  const url = project.iconUrl?.trim();
+  return url ? url : DEFAULT_PROJECT_ICON;
+}

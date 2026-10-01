@@ -23,6 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 .vite-source-tags.js
-
-.acetix-source/
 .vercel

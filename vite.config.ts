@@ -6,12 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(async ({ mode }) => {
   const plugins = [react(), tailwindcss()];
   try {
-    const sourceTagsModule = './.vite-source-tags.js';
-    const m = await import(sourceTagsModule);
+    // @ts-ignore
+    const m = await import('./.vite-source-tags.js');
     plugins.push(m.sourceTags());
-  } catch {
-    // Source tagging is optional outside the visual editing workspace.
-  }
+  } catch {}
 
   const env = loadEnv(mode, process.cwd(), ['VITE_', 'NEXT_PUBLIC_']);
   const processEnvDefines: Record<string, string> = {};
