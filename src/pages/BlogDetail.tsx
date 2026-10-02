@@ -158,31 +158,41 @@ export default function BlogDetail() {
   );
 
   const [retry, setRetry] = useState(0);
-  const [body, setBody] = useState<BodyState>({
-    status: 'loading',
-    blocks: [],
-    error: '',
-    docCover: '',
-  });
 
   const blogId = blog?.id;
   const blogUrl = blog?.blogUrl ?? '';
 
+  // Keyed fetch state: remounts per article/URL/retry, so "loading" needs
+  // no setState-in-effect when the target changes — React resets it.
+  const [fetchState, setFetchState] = useState<{
+    key: string;
+    status: Exclude<BodyStatus, 'missing'>;
+    blocks: BlogBlock[];
+    error: string;
+    docCover: string;
+  } | null>(null);
+  const fetchKey = blogId && blogUrl ? `${blogId}::${blogUrl}::${retry}` : '';
+  if (fetchKey && fetchState?.key !== fetchKey) {
+    setFetchState({ key: fetchKey, status: 'loading', blocks: [], error: '', docCover: '' });
+  }
+
   useEffect(() => {
-    if (!blogId) return;
-    if (!blogUrl) {
-      setBody({ status: 'missing', blocks: [], error: '', docCover: '' });
-      return;
-    }
+    if (!blogId || !blogUrl || !fetchKey) return;
     const ctrl = new AbortController();
-    setBody({ status: 'loading', blocks: [], error: '', docCover: '' });
     fetchBlogContent(blogUrl, ctrl.signal)
       .then((doc) =>
-        setBody({ status: 'ready', blocks: doc.blocks, error: '', docCover: doc.cover ?? '' }),
+        setFetchState({
+          key: fetchKey,
+          status: 'ready',
+          blocks: doc.blocks,
+          error: '',
+          docCover: doc.cover ?? '',
+        }),
       )
       .catch((err: unknown) => {
         if (err instanceof DOMException && err.name === 'AbortError') return;
-        setBody({
+        setFetchState({
+          key: fetchKey,
           status: 'error',
           blocks: [],
           error: err instanceof Error ? err.message : 'Could not load the article body.',
@@ -190,7 +200,23 @@ export default function BlogDetail() {
         });
       });
     return () => ctrl.abort();
-  }, [blogId, blogUrl, retry]);
+  }, [blogId, blogUrl, fetchKey]);
+
+  // Derived view-model: no linked JSON → 'missing'; otherwise the fetch result.
+  const body: BodyState = useMemo(
+    () =>
+      !blogUrl || !fetchKey
+        ? { status: 'missing', blocks: [], error: '', docCover: '' }
+        : fetchState && fetchState.key === fetchKey
+          ? {
+              status: fetchState.status,
+              blocks: fetchState.blocks,
+              error: fetchState.error,
+              docCover: fetchState.docCover,
+            }
+          : { status: 'loading', blocks: [], error: '', docCover: '' },
+    [blogUrl, fetchKey, fetchState],
+  );
 
   const readMinutes = useMemo(
     () => (body.status === 'ready' ? estimateReadMinutes(body.blocks) : null),

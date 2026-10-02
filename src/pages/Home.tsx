@@ -133,7 +133,6 @@ export default function Home() {
               alt="A collage of acetix web apps"
               className="aspect-[16/9] w-full object-cover"
               loading="eager"
-              fetchPriority="high"
               decoding="async"
             />
           </div>

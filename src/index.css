@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand: #fa3e0a;
   --color-ember: #ff7a1a;
@@ -44,4 +46,113 @@ html {
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* Dark surface remap — the whole site is built on the light palette, so
+   dark mode re-maps the shared tokens instead of touching every file.
+   Inverse elements (light text on ink pills/cards) are re-pointed so they
+   stay readable: ink surfaces become light, paper text becomes dark. */
+.dark {
+  --color-paper: #171110;
+  --color-ink: #f3ede6;
+  --color-ink-2: #f8f4ee;
+  --color-smoke: #b3aca2;
+  --color-sand: #2a201a;
+}
+
+.dark body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Page-level cards/panels follow the theme (was hardcoded white). */
+.dark .bg-white {
+  background-color: #211913;
+}
+
+/* Ink pills/buttons become light in dark mode, so `text-paper` on them
+   must flip to dark for contrast. Plain body text uses `text-ink` and is
+   already handled by the token remap above. */
+.dark .bg-ink {
+  background-color: #f3ede6;
+}
+
+.dark .hover\:bg-ink:hover {
+  background-color: #ffffff;
+}
+
+.dark .bg-ink .text-paper,
+.dark .bg-ink.text-paper,
+.dark a.bg-ink,
+.dark button.bg-ink,
+.dark .bg-ink .text-paper\/50,
+.dark .bg-ink .text-paper\/60,
+.dark .bg-ink .text-paper\/70,
+.dark .bg-ink .text-paper\/75,
+.dark .bg-ink .text-paper\/80,
+.dark .bg-ink .text-paper\/90,
+.dark footer .text-paper,
+.dark footer .text-paper\/50,
+.dark footer .text-paper\/70 {
+  color: #23110b;
+}
+
+.dark .bg-ink .border-white\/10,
+.dark .bg-ink .border-white\/15,
+.dark .bg-ink .border-white\/40,
+.dark footer .border-white\/10,
+.dark footer .border-white\/15 {
+  border-color: rgb(35 17 11 / 0.14);
+}
+
+.dark .bg-ink .bg-white\/5,
+.dark .bg-ink .bg-white\/10,
+.dark .bg-ink .bg-white\/15 {
+  background-color: rgb(35 17 11 / 0.06);
+}
+
+/* Hardcoded status tints stay readable on dark surfaces. */
+.dark .bg-amber-50 {
+  background-color: rgb(255 176 24 / 0.08);
+}
+
+.dark .text-amber-900,
+.dark .text-amber-800\/90 {
+  color: #f5c76a;
+}
+
+.dark .text-amber-700 {
+  color: #e8a83e;
+}
+
+.dark .text-emerald-700,
+.dark .text-emerald-800 {
+  color: #6fd3a0;
+}
+
+.dark .text-sky-700,
+.dark .text-sky-800 {
+  color: #7cc4ee;
+}
+
+.dark .text-violet-700 {
+  color: #b9a5f5;
+}
+
+.dark .border-ink\/10 {
+  border-color: rgb(243 237 230 / 0.12);
+}
+
+.dark .border-ink\/15 {
+  border-color: rgb(243 237 230 / 0.16);
+}
+
+.dark .border-ink\/20 {
+  border-color: rgb(243 237 230 / 0.22);
+}
+
+/* Media should never be re-tinted. */
+.dark img,
+.dark video {
+  filter: none;
 }

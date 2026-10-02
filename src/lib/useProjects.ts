@@ -38,6 +38,7 @@ function normalize(docs: QueryDocumentSnapshot<DocumentData>[]): Project[] {
     return {
       ...data,
       id: slug,
+      docId: docSnap.id,
       title:
         typeof data.title === 'string' && data.title.trim()
           ? data.title

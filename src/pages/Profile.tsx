@@ -36,14 +36,13 @@ export default function Profile() {
     '/profile',
   );
   const [user, setUser] = useState<User | null>(auth?.currentUser ?? null);
-  const [status, setStatus] = useState<AuthStatus>('checking');
+  // No auth backend → already "ready" (renders the unavailable card). This
+  // avoids a setState-in-effect just to flip out of 'checking'.
+  const [status, setStatus] = useState<AuthStatus>(auth ? 'checking' : 'ready');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!auth) {
-      setStatus('ready');
-      return;
-    }
+    if (!auth) return;
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setStatus('ready');

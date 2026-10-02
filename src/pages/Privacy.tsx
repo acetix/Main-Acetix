@@ -144,8 +144,6 @@ export default function Privacy() {
               Every regional address points to the same page, and search
               engines only index the plain address without the prefix — you
               can remove the prefix at any time and the site works the same.
-              You can also pick a region manually from the location switcher
-              in the footer.
             </p>
           </section>
 

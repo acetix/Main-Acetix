@@ -19,6 +19,14 @@ export default function FloatingActions() {
   const [scrolled, setScrolled] = useState(false);
   const [labelOn, setLabelOn] = useState(false);
   const [hover, setHover] = useState(false);
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  // Reset transient hover/label state on navigation (during render, not in an effect).
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setHover(false);
+    setLabelOn(false);
+  }
 
   const onSuggestPage = pathname.startsWith('/suggest') || pathname.endsWith('/suggest');
   const mode: 'suggest' | 'up' = scrolled ? 'up' : 'suggest';
@@ -30,11 +38,6 @@ export default function FloatingActions() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  useEffect(() => {
-    setHover(false);
-    setLabelOn(false);
-  }, [pathname]);
 
   useEffect(() => {
     const firstShow = setTimeout(() => setLabelOn(true), 2000);

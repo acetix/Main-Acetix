@@ -60,12 +60,19 @@ function loadConfig(): Promise<ConfigState> {
 
   inflight = getDoc(doc(db, 'siteConfig', 'site'))
     .then((snap) => {
-      cache = snap.exists()
-        ? {
-            config: { ...DEFAULT_SITE_CONFIG, ...(snap.data() as Partial<SiteConfig>) },
-            source: 'firebase' as const,
-          }
-        : { config: DEFAULT_SITE_CONFIG, source: 'local' as const };
+      if (snap.exists()) {
+        const merged: SiteConfig = {
+          ...DEFAULT_SITE_CONFIG,
+          ...(snap.data() as Partial<SiteConfig>),
+        };
+        // Guard: non-string values (or nulls) would crash .trim() downstream.
+        (Object.keys(merged) as (keyof SiteConfig)[]).forEach((k) => {
+          if (typeof merged[k] !== 'string') merged[k] = DEFAULT_SITE_CONFIG[k];
+        });
+        cache = { config: merged, source: 'firebase' as const };
+      } else {
+        cache = { config: DEFAULT_SITE_CONFIG, source: 'local' as const };
+      }
       return cache;
     })
     .catch((error) => {

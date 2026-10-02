@@ -5,16 +5,12 @@ import { AnimatePresence, motion } from 'framer-motion';
  * Branded splash shown until the site is FULLY loaded — logo pop, wordmark
  * and a gradient progress line. It hides only after window `load`
  * (all images/chunks), webfonts, AND a minimum display time, so visitors
- * never see a half-ready page. A matching static `#boot-shell` in
- * index.html covers the paint before this React component even mounts.
+ * never see a half-ready page.
  */
 export default function SplashScreen() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // Hand over from the static pre-React shell to this animated one.
-    document.getElementById('boot-shell')?.remove();
-
     const MIN_TIME = 1400;
     const start = Date.now();
     let winLoaded = document.readyState === 'complete';

@@ -55,7 +55,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 {project.title}
               </h3>
             </span>
-            <span className="shrink-0 text-xs text-smoke">{projectDomain(project)}</span>
+            {projectDomain(project) && (
+              <span className="shrink-0 text-xs text-smoke">{projectDomain(project)}</span>
+            )}
           </div>
           <p className="mt-2 min-w-0 break-words text-sm leading-relaxed text-smoke">{project.shortDescription}</p>
           <div className="mt-4 flex min-w-0 items-center justify-between gap-3 pt-1">

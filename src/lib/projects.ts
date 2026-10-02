@@ -75,10 +75,12 @@ export function projectAccent(project: Pick<Project, 'accent' | 'category'>): st
 
 export function projectDomain(project: Pick<Project, 'domain' | 'projectUrl'>): string {
   if (project.domain && project.domain.trim()) return project.domain;
+  const raw = (project.projectUrl || '').trim();
+  if (!raw || raw === '#') return '';
   try {
-    return new URL(project.projectUrl).host;
+    return new URL(raw).host;
   } catch {
-    return project.projectUrl.replace(/^https?:\/\//, '').split('/')[0] || project.projectUrl;
+    return raw.replace(/^https?:\/\//, '').split('/')[0] || raw;
   }
 }
 

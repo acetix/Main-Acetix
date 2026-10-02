@@ -74,7 +74,8 @@ export async function voteOnProject(project: Project, vote: Vote): Promise<VoteR
       if (like !== baseLike) delta.like = increment(like - baseLike);
       if (dislike !== baseDislike) delta.dislike = increment(dislike - baseDislike);
       if (Object.keys(delta).length > 0) {
-        await updateDoc(doc(db, 'projects', project.id), delta);
+        // NB: `id` may be the slug — writes must target the document id.
+        await updateDoc(doc(db, 'projects', project.docId ?? project.id), delta);
       }
     } catch (error) {
       console.warn('[acetix] Vote could not be saved (access rules pending?).', error);

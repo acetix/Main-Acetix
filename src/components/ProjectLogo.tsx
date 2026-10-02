@@ -20,7 +20,16 @@ export default function ProjectLogo({ project, className = '' }: ProjectLogoProp
       src={src}
       alt={`${project.title} logo`}
       loading="lazy"
-      onError={() => setFailed(true)}
+      onError={(e) => {
+        // Guard: if even the fallback fails (offline/proxy), don't error-loop.
+        const img = e.currentTarget;
+        if (img.src.endsWith(DEFAULT_PROJECT_ICON)) {
+          img.onerror = null;
+          img.style.visibility = 'hidden';
+          return;
+        }
+        setFailed(true);
+      }}
       className={className}
     />
   );

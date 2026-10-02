@@ -18,6 +18,7 @@ export type ProjectStatus = 'live' | 'beta' | 'building';
  */
 export interface Project {
   id: string; // route slug — cloud `slug` field, or the document id
+  docId?: string; // Firestore document id (differs from `id` when `slug` is set)
   title: string;
   shortDescription: string;
   fullDescription: string;

@@ -58,6 +58,8 @@ export default function ProjectDetail() {
   const year = projectYear(project);
   const domain = projectDomain(project);
   const features = project.features ?? [];
+  const liveUrl = (project.projectUrl || '').trim();
+  const hasLiveUrl = liveUrl.length > 0 && liveUrl !== '#';
 
   return (
     <div className="mx-auto max-w-6xl min-w-0 overflow-x-clip px-6 pb-24 pt-28 md:pt-36">
@@ -104,15 +106,21 @@ export default function ProjectDetail() {
               {project.shortDescription}
             </p>
           </div>
-          <a
-            href={project.projectUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-ember px-7 py-3.5 text-sm font-bold text-white shadow-md transition hover:shadow-lg hover:brightness-105"
-          >
-            Launch live app
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
+          {hasLiveUrl ? (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-ember px-7 py-3.5 text-sm font-bold text-white shadow-md transition hover:shadow-lg hover:brightness-105"
+            >
+              Launch live app
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          ) : (
+            <span className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-7 py-3.5 text-sm font-bold text-smoke">
+              Coming soon
+            </span>
+          )}
         </div>
       </Reveal>
 
@@ -186,12 +194,14 @@ export default function ProjectDetail() {
                   <dd className="font-semibold">{year}</dd>
                 </div>
               )}
-              <div className="border-b border-ink/10 pb-3.5">
-                <dt className="text-smoke">Domain</dt>
-                <dd className="mt-1 break-all font-display font-semibold text-brand">
-                  {domain}
-                </dd>
-              </div>
+              {domain && (
+                <div className="border-b border-ink/10 pb-3.5">
+                  <dt className="text-smoke">Domain</dt>
+                  <dd className="mt-1 break-all font-display font-semibold text-brand">
+                    {domain}
+                  </dd>
+                </div>
+              )}
               {project.tags.length > 0 && (
                 <div>
                   <dt className="text-smoke">Stack & topics</dt>
@@ -208,15 +218,21 @@ export default function ProjectDetail() {
                 </div>
               )}
             </dl>
-            <a
-              href={project.projectUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-paper transition hover:bg-brand"
-            >
-              Open {project.title}
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
+            {hasLiveUrl ? (
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-paper transition hover:bg-brand"
+              >
+                Open {project.title}
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+            ) : (
+              <span className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-5 py-3 text-sm font-bold text-smoke">
+                Coming soon
+              </span>
+            )}
             <div className="mt-6 border-t border-ink/10 pt-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-smoke">
                 Rate this project

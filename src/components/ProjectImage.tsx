@@ -14,8 +14,9 @@ interface ProjectImageProps {
  */
 export default function ProjectImage({ project, className = '' }: ProjectImageProps) {
   const [failed, setFailed] = useState(false);
+  const src = (project.imageUrl || '').trim();
 
-  if (!project.imageUrl || failed) {
+  if (!src || failed) {
     return (
       <div
         role="img"
@@ -37,7 +38,7 @@ export default function ProjectImage({ project, className = '' }: ProjectImagePr
 
   return (
     <img
-      src={project.imageUrl}
+      src={src}
       alt={`${project.title} interface`}
       loading="lazy"
       onError={() => setFailed(true)}
